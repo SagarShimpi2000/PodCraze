@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PodCrazeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="Username" />
+    </Key>
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Listener">
+    <Key>
+      <PropertyRef Name="Username" />
+    </Key>
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Contact" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Gender" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Requests" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="ListenerReqs" Relationship="Self.FK_ListenerReq2_Listener" FromRole="Listener" ToRole="ListenerReq" />
+  </EntityType>
+  <EntityType Name="ListenerReq">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Listener_username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Narrator_username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Image" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Pdf" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Amount" Type="Double" Nullable="false" />
+    <Property Name="Status" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Listener" Relationship="Self.FK_ListenerReq2_Listener" FromRole="ListenerReq" ToRole="Listener" />
+    <NavigationProperty Name="Narrator" Relationship="Self.FK_ListenerReq2_Narrator" FromRole="ListenerReq" ToRole="Narrator" />
+  </EntityType>
+  <EntityType Name="Narrator">
+    <Key>
+      <PropertyRef Name="Username" />
+    </Key>
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Contact" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="VoiceSample" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Discription" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Gender" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Status" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="ListenerReqs" Relationship="Self.FK_ListenerReq2_Narrator" FromRole="Narrator" ToRole="ListenerReq" />
+    <NavigationProperty Name="Podcasts" Relationship="Self.Narrator_Fk" FromRole="Narrator" ToRole="Podcasts" />
+  </EntityType>
+  <EntityType Name="Podcast">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Image" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Pdf" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Amount" Type="Double" Nullable="false" />
+    <Property Name="IsPaid" Type="Int32" Nullable="false" />
+    <Property Name="Narrator_username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Audio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Narrator" Relationship="Self.Narrator_Fk" FromRole="Podcasts" ToRole="Narrator" />
+  </EntityType>
+  <Association Name="FK_ListenerReq2_Listener">
+    <End Role="Listener" Type="Self.Listener" Multiplicity="1" />
+    <End Role="ListenerReq" Type="Self.ListenerReq" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Listener">
+        <PropertyRef Name="Username" />
+      </Principal>
+      <Dependent Role="ListenerReq">
+        <PropertyRef Name="Listener_username" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ListenerReq2_Narrator">
+    <End Role="Narrator" Type="Self.Narrator" Multiplicity="0..1" />
+    <End Role="ListenerReq" Type="Self.ListenerReq" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Narrator">
+        <PropertyRef Name="Username" />
+      </Principal>
+      <Dependent Role="ListenerReq">
+        <PropertyRef Name="Narrator_username" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Narrator_Fk">
+    <End Role="Narrator" Type="Self.Narrator" Multiplicity="1" />
+    <End Role="Podcasts" Type="Self.Podcast" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Narrator">
+        <PropertyRef Name="Username" />
+      </Principal>
+      <Dependent Role="Podcasts">
+        <PropertyRef Name="Narrator_username" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PodCrazeEntities2" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Admins" EntityType="Self.Admin" />
+    <EntitySet Name="Listeners" EntityType="Self.Listener" />
+    <EntitySet Name="ListenerReqs" EntityType="Self.ListenerReq" />
+    <EntitySet Name="Narrators" EntityType="Self.Narrator" />
+    <EntitySet Name="Podcasts" EntityType="Self.Podcast" />
+    <AssociationSet Name="FK_ListenerReq2_Listener" Association="Self.FK_ListenerReq2_Listener">
+      <End Role="Listener" EntitySet="Listeners" />
+      <End Role="ListenerReq" EntitySet="ListenerReqs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ListenerReq2_Narrator" Association="Self.FK_ListenerReq2_Narrator">
+      <End Role="Narrator" EntitySet="Narrators" />
+      <End Role="ListenerReq" EntitySet="ListenerReqs" />
+    </AssociationSet>
+    <AssociationSet Name="Narrator_Fk" Association="Self.Narrator_Fk">
+      <End Role="Narrator" EntitySet="Narrators" />
+      <End Role="Podcasts" EntitySet="Podcasts" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

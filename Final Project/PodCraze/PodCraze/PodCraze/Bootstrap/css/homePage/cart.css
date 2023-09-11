@@ -1,0 +1,54 @@
+.cart-box {
+    background: inherit; /* black */
+    margin: 20px;
+}
+
+.cart-box .addToC {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    height: 120px;
+    background: #000;
+    background-color: transparent;
+    line-height: 60px;
+    padding: 0 20px;
+    visibility: hidden;
+    opacity: 0;
+    transition: all .5s ease;
+    transform: translateY(60px)
+}
+
+.cart-box:hover .addToC {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0)
+}
+
+.cart-box .image-box {
+    position: relative;
+    overflow: hidden
+}
+
+.cart-box .image-link {
+    display: block;
+    position: relative
+}
+
+.cart-box .image-link img {
+    width: 100%;
+    height: 300px;
+    transition: all .5s ease
+}
+
+.cart-box a {
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 14px
+}
+
+.cart-box a:hover {
+    color: #ff365d
+}

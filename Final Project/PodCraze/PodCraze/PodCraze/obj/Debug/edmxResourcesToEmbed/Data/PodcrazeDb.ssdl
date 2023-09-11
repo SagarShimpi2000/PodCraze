@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PodCrazeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="Username" />
+    </Key>
+    <Property Name="Name" Type="char" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="40" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Listener">
+    <Key>
+      <PropertyRef Name="Username" />
+    </Key>
+    <Property Name="Name" Type="char" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Contact" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Gender" Type="char" MaxLength="10" Nullable="false" />
+    <Property Name="Requests" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ListenerReq">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Listener_username" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Narrator_username" Type="varchar" MaxLength="20" />
+    <Property Name="Image" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Pdf" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Amount" Type="float" Nullable="false" />
+    <Property Name="Status" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Narrator">
+    <Key>
+      <PropertyRef Name="Username" />
+    </Key>
+    <Property Name="Name" Type="char" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Contact" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="VoiceSample" Type="varchar" MaxLength="50" />
+    <Property Name="Discription" Type="varchar" MaxLength="200" />
+    <Property Name="Gender" Type="char" MaxLength="10" Nullable="false" />
+    <Property Name="Status" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Podcasts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Image" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Pdf" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Amount" Type="float" Nullable="false" />
+    <Property Name="IsPaid" Type="int" Nullable="false" />
+    <Property Name="Narrator_username" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Audio" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="500" />
+  </EntityType>
+  <Association Name="FK_ListenerReq2_Listener">
+    <End Role="Listener" Type="Self.Listener" Multiplicity="1" />
+    <End Role="ListenerReq" Type="Self.ListenerReq" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Listener">
+        <PropertyRef Name="Username" />
+      </Principal>
+      <Dependent Role="ListenerReq">
+        <PropertyRef Name="Listener_username" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ListenerReq2_Narrator">
+    <End Role="Narrator" Type="Self.Narrator" Multiplicity="0..1" />
+    <End Role="ListenerReq" Type="Self.ListenerReq" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Narrator">
+        <PropertyRef Name="Username" />
+      </Principal>
+      <Dependent Role="ListenerReq">
+        <PropertyRef Name="Narrator_username" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Narrator_Fk">
+    <End Role="Narrator" Type="Self.Narrator" Multiplicity="1" />
+    <End Role="Podcasts" Type="Self.Podcasts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Narrator">
+        <PropertyRef Name="Username" />
+      </Principal>
+      <Dependent Role="Podcasts">
+        <PropertyRef Name="Narrator_username" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PodCrazeModelStoreContainer">
+    <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Listener" EntityType="Self.Listener" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ListenerReq" EntityType="Self.ListenerReq" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Narrator" EntityType="Self.Narrator" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Podcasts" EntityType="Self.Podcasts" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_ListenerReq2_Listener" Association="Self.FK_ListenerReq2_Listener">
+      <End Role="Listener" EntitySet="Listener" />
+      <End Role="ListenerReq" EntitySet="ListenerReq" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ListenerReq2_Narrator" Association="Self.FK_ListenerReq2_Narrator">
+      <End Role="Narrator" EntitySet="Narrator" />
+      <End Role="ListenerReq" EntitySet="ListenerReq" />
+    </AssociationSet>
+    <AssociationSet Name="Narrator_Fk" Association="Self.Narrator_Fk">
+      <End Role="Narrator" EntitySet="Narrator" />
+      <End Role="Podcasts" EntitySet="Podcasts" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

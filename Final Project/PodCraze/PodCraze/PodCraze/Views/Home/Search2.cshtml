@@ -1,0 +1,147 @@
+﻿@model PodCraze.Models.PodcastsViewModel
+@{
+    Layout = null;
+    ViewBag.Title = "Searched";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PodCraze Home</title>
+
+    <!--css and bootstrap for cart-->
+    <link rel="stylesheet" href="~/Bootstrap/css/homePage/cart.css">
+    <!-- css for sign in menu-->
+    <link rel="stylesheet" href="~/Bootstrap/css/homePage/navbar.css">
+    <!-- css for left menu-->
+    <link rel="stylesheet" href="~/Bootstrap/css/homePage/sidebar.css">
+    <!-- js for left menu-->
+    <script src="~/Bootstrap/js/sideMenu/sidebar.js"></script>
+    <!-- css for footer -->
+    <link rel="stylesheet" href="~/Bootstrap/css/homePage/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="/Home/Index" style="text-decoration: none;"><img src="~/Bootstrap/Images/homebtn.png" style="height: 20px;"><strong> Home</strong></a>
+        <a href="#" style="text-decoration: none;"><img src="~/Bootstrap/Images/searchbtn.jpg" style="height: 20px;"><strong> Search</strong></a>
+        <a href="#" style="text-decoration: none;"><img src="~/Bootstrap/Images/librarybtn.png" style="height: 20px;"><strong> Your Library</strong></a>
+        <a href="#" style="text-decoration: none;"><strong></strong></a>
+    </div>
+
+    <div id="main">
+        <nav style="display: flex; justify-content: space-between; align-items: center; background-color: #111; padding: 10px; ">
+            <!--width: 100%; z-index:10; position: fixed;" id="nav-->
+            <div style="display: flex; align-items: center;">
+                <button class="openbtn" onclick="openNav()"><span id="menubtn">&#9776;</span> PodCraze</button>
+
+                <!--
+                <button style="background-color: #66a3d2; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; transition: background-color 0.3s;">Home</button>
+                <button style="background-color: #66a3d2; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; transition: background-color 0.3s; margin-left: 10px;">Search</button>
+                -->
+            </div>
+            <div>
+                <div class="dropdown">
+                    <button class="dropbtn">Sign in</button>
+                    <div class="dropdown-content">
+                        <a href="/Listener/Registration">User</a>
+                        <a href="/Narrator/Registration">Creator</a>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <button class="dropbtn">Login</button>
+                    <div class="dropdown-content">
+                        <a href="/Admin/Login">Admin</a>
+                        <a href="/Listener/Login">User</a>
+                        <a href="/Narrator/Login">Creator</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <input type="text" name="searchTerm" placeholder="Search by title or author" value="@ViewBag.SearchTerm" />
+
+
+        @using (Html.BeginForm("Search2", "Home", FormMethod.Post))
+        {
+            <div>Username: @Html.TextBoxFor(m => m.Name)</div>
+            <br />
+            <br />
+            <div class="row m-0 right"><button type="submit">Search</button></div>
+        }
+
+        @if (Model.PodcastList != null)
+        {
+            <div class="row m-0">
+                @foreach (var pod in Model.PodcastList)
+                {
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 cart-box p-3">
+                        <div class="row m-0 image-box shadow">
+                            <div class="image-link">
+                                <img src="@pod.Image"
+                                     alt="">
+                            </div>
+                            <div class="addToC">
+                                <a href=@Model.Id>
+                                    <img src="~/Bootstrap/Images/playbtn.png" height="100px" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+        <div class="footer-clean">
+            <footer>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-sm-4 col-md-3 item">
+                            <h3>About</h3>
+                            <ul>
+                                <li><a href="#">Company</a></li>
+                                <li><a href="#">Team</a></li>
+                                <li><a href="#">Legacy</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-4 col-md-3 item">
+                            <h3>Privacy</h3>
+                            <ul>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Privacy Center</a></li>
+                                <li><a href="#">Accessibility</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-3 item social">
+                            <a href="#"><i class="icon ion-social-facebook"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-instagram"></i></a>
+                            <p class="copyright">PodCraze © 2023</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+
+
+
+
+
